@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#355106</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--系统颜色-->
+    <color name="theme">#2269D4</color>
+    <color name="theme_pressed">#638FFF</color>
+<!--    <color name="theme_text">#10000000</color>-->
+    <color name="theme_text">#8C8C8C</color>
+    <color name="theme_text_deep">#282828</color>
+
+    <!--标题颜色-->
+    <color name="xydialog_colorTitle">#000000</color>
+    <!--内容颜色-->
+    <color name="xydialog_colorMessage">#000000</color>
+    <!--输入内容颜色-->
+    <color name="xydialog_colorEditText">#000000</color>
+    <!--进度条颜色-->
+    <color name="xydialog_colorProgressBar">#63AEFF</color>
+    <!--背景颜色-->
+    <color name="xydialog_colorBackground">#ffffff</color>
+    <!--背景21涟漪效果-->
+    <color name="xydialog_colorRipple">#63AEFF</color>
+    <!--按钮没选中颜色-->
+    <color name="xydialog_colorButton_un">#000000</color>
+    <!--按钮选中颜色-->
+    <color name="xydialog_colorButton">#63AEFF</color>
+    <!--分割线颜色-->
+    <color name="xydialog_colorLine">#efeff5</color>
+    <!--单选文字颜色-->
+    <color name="xydialog_colorSingle">#2269D4</color>
+
+    <color name="common_blue_0090FF">#1D75F2</color>
+
+    <color name="common_grey_A8A8A8">#A8A8A8</color>
+
+
+</resources>
