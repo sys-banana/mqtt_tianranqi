@@ -16,18 +16,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:layout_margin="13dp"
+        android:layout_marginTop="@dimen/dimen13"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_imei"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="请输入IMEI码"
-            android:inputType="number"
-            android:paddingLeft="8dp" />
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1">
+
+
+            <EditText
+                android:id="@+id/et_imei"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入IMEI码"
+                android:inputType="number"
+                android:paddingLeft="8dp" />
+
+            <ImageView
+                android:id="@+id/iv_clear"
+                android:layout_width="@dimen/dimen40"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dimen10"
+                android:paddingRight="@dimen/dimen10"
+                android:src="@drawable/clear"
+                android:visibility="visible"
+                android:layout_alignRight="@+id/et_imei"/>
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_search"
@@ -44,6 +63,12 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13"
+        android:layout_marginBottom="@dimen/dimen13"/>
 
     <TextView
         android:layout_width="match_parent"

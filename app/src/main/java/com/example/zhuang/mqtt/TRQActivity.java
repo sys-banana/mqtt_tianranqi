@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.example.zhuang.mqtt.service.IGetMessageCallBack;
 import com.example.zhuang.mqtt.service.MQTTService;
 import com.example.zhuang.mqtt.service.MyServiceConnection;
+import com.example.zhuang.mqtt.utils.Contants;
+import com.example.zhuang.mqtt.utils.SharedPref;
 import com.example.zhuang.mqtt.utils.ToastUtils;
 import com.yanzhenjie.permission.Permission;
 
@@ -39,6 +41,7 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
     private Context context;
     private RelativeLayout rl_rq_change;
     private ImageView check;
+    private ImageView iv_clear;
     private boolean isOpen = true;
     private String message = "12312312";
     private MyServiceConnection serviceConnection;
@@ -80,8 +83,10 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
             String etimei = et_imei.getText().toString().trim();
             if (TextUtils.isEmpty(etimei)) {
                 btn_connect_on.setEnabled(false);
+                iv_clear.setVisibility(View.GONE);
             } else {
                 btn_connect_on.setEnabled(true);
+                iv_clear.setVisibility(View.VISIBLE);
             }
 
         }
@@ -109,8 +114,15 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
         tv_bit0 = findViewById(R.id.tv_bit0);
         tv_bit1 = findViewById(R.id.tv_bit1);
         tv_bit2 = findViewById(R.id.tv_bit2);
+        iv_clear = findViewById(R.id.iv_clear);
 
         et_imei.addTextChangedListener(mTextWatcher);
+
+        if (SharedPref.getInstance().getData(Contants.IMEI)!=null) {
+            et_imei.setText(String.valueOf(SharedPref.getInstance().getData(Contants.IMEI)));
+        }else {
+            et_imei.setText("");
+        }
 
 
         context = TRQActivity.this;
@@ -165,6 +177,13 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
             }
         });
 
+        iv_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_imei.setText("");
+            }
+        });
+
 
     }
 
@@ -174,6 +193,8 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
         myTopic = "/LIGHT/" + message + "/REQ";
         clientId = String.valueOf((Math.random() * 9 + 1) * 100000);
         Log.i("TRQActivity", clientId);
+
+        SharedPref.getInstance().saveData(Contants.IMEI,message);
     }
 
     private void scan() {
