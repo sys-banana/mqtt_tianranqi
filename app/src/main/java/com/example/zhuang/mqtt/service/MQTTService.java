@@ -34,17 +34,39 @@ public class MQTTService extends Service {
     private String host = "tcp://140.207.48.130:2601";
     private String userName = "admin";
     private String passWord = "123456";
-    private static String myTopic = "ForTest2222";      //要发布的主题
-    private static String myTopic2 = "ForTest";      //要订阅的主题
-    private String clientId = "MQTT_FX_Client";//客户端标识
+    private static String myTopic = "/LIGHT/xxxxxxxxxxxxxxx/REQ";      //要发布的主题
+    private static String myTopic2 = "/LIGHT/xxxxxxxxxxxxxxx/RSP";      //要订阅的主题
+    private String clientId = "MQTT_FX_Client1";//客户端标识
     private IGetMessageCallBack IGetMessageCallBack;
 
+
+    public static String getMyTopic() {
+        return myTopic;
+    }
+
+    public static void setMyTopic(String myTopic) {
+        MQTTService.myTopic = myTopic;
+    }
+
+    public static String getMyTopic2() {
+        return myTopic2;
+    }
+
+    public static void setMyTopic2(String myTopic2) {
+        MQTTService.myTopic2 = myTopic2;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.e(getClass().getName(), "onCreate");
         init();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+
     }
 
     public static void publish(String msg){
@@ -59,6 +81,8 @@ public class MQTTService extends Service {
             e.printStackTrace();
         }
     }
+
+
 
 
     private void init() {
@@ -198,6 +222,9 @@ public class MQTTService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.e(getClass().getName(), "onBind");
+        myTopic = intent.getStringExtra("myTopic");
+        myTopic2 = intent.getStringExtra("myTopic2");
+        clientId = intent.getStringExtra("clientId");
         return new CustomBinder();
     }
 
