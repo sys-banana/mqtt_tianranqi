@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dimen13"
-            android:text="设置燃气报警器阀门"
+            android:text="设置阀门状态"
             android:textSize="@dimen/dimen18" />
 
 
@@ -111,7 +111,7 @@
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_choose_close" />
+                android:src="@drawable/icon_choose_open" />
 
         </RelativeLayout>
 

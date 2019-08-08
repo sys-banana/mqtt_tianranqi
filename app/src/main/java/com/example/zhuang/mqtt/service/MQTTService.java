@@ -9,11 +9,16 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.zhuang.mqtt.R;
+import com.example.zhuang.mqtt.TRQActivity;
+import com.example.zhuang.mqtt.utils.ToastUtils;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -71,7 +76,7 @@ public class MQTTService extends Service {
 
     public static void publish(String msg){
         String topic = myTopic;
-        Integer qos = 1;
+        Integer qos = 2;
         Boolean retained = false;
         try {
             if (client != null){
@@ -109,7 +114,7 @@ public class MQTTService extends Service {
         String message = "{\"terminal_uid\":\"" + clientId + "\"}";
         Log.e(getClass().getName(), "message是:" + message);
         String topic = myTopic;
-        Integer qos = 0;
+        Integer qos = 2;
         Boolean retained = false;
         if ((!message.equals("")) || (!topic.equals(""))) {
             // 最后的遗嘱
@@ -162,6 +167,12 @@ public class MQTTService extends Service {
         @Override
         public void onSuccess(IMqttToken arg0) {
             Log.i(TAG, "连接成功 ");
+            Handler handlerThree=new Handler(Looper.getMainLooper());
+            handlerThree.post(new Runnable(){
+                public void run(){
+                    ToastUtils.showToast(getApplicationContext(),"连接成功");
+                }
+            });
             try {
                 // 订阅myTopic话题
                 client.subscribe(myTopic2,1);
@@ -174,6 +185,14 @@ public class MQTTService extends Service {
         public void onFailure(IMqttToken arg0, Throwable arg1) {
             arg1.printStackTrace();
             // 连接失败，重连
+
+            Handler handlerThree=new Handler(Looper.getMainLooper());
+            handlerThree.post(new Runnable(){
+                public void run(){
+                    ToastUtils.showToast(getApplicationContext(),"连接失败");
+                }
+            });
+
         }
     };
 
