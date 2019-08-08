@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">mqtt</string>
-    <string name="common_qr">(识别二维码)</string>
-    <string name="common_qr_open">扫一扫</string>
-    <string name="permissions_tips">提示</string>
-    <string name="permissions_ok">确定</string>
-    <string name="permissions_cancel">取消</string>
+    <string name="common_qr" translatable="false">(识别二维码)</string>
+    <string name="common_qr_open" translatable="false">扫一扫</string>
+    <string name="permissions_tips" translatable="false">提示</string>
+    <string name="permissions_ok" translatable="false">确定</string>
+    <string name="permissions_cancel" translatable="false">取消</string>
+    <string name="bit0_status_0" translatable="false">正常</string>
+    <string name="bit1_status_0" translatable="false">关闭</string>
+    <string name="bit2_status_0" translatable="false">正常</string>
+    <string name="bit0_status_1" translatable="false">泄露</string>
+    <string name="bit1_status_1" translatable="false">开启</string>
+    <string name="bit2_status_1" translatable="false">故障</string>
+    <string name="bit2_status_no" translatable="false">无状态</string>
 </resources>

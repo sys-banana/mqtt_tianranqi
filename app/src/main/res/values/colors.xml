@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#E75854</color>
+    <color name="colorPrimaryDark">#E75854</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="theme">#E75854</color>
+
+
     <color name="translation">#00000000</color>
+    <color name="theme">#E75854</color>
+    <color name="theme_50">#50E75854</color>
+    <color name="theme_pressed">#50E75854</color>
+    <color name="theme_bg">#F6F6F6</color>
+
+    <color name="theme_text_deep">#282828</color>
+    <color name="gray">#888888</color>
+    <color name="grey1">#333333</color>
+    <color name="grey2">#CCCCCC</color>
+    <color name="grey3">#E1E1E1</color>
+    <color name="grey4">#F0F0F0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white50">#50ffffff</color>
+    <color name="translation30">#30000000</color>
+    <color name="theme_btn_unpressed">#A8A8A8</color>
+    <color name="theme_light">#E1E1E1</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_969696">#969696</color>
+    <color name="color_f9f9f9">#f9f9f9</color>
+
+    <color name="theme_unpressed_warn">#ff6363</color>
+    <color name="color_E75854">#E75854</color>
+    <color name="color_FF8C40">#FF8C40</color>
+    <color name="color_60A847">#60A847</color>
+    <color name="trade_green_80">#806fb488</color>
+    <color name="trade_green">#6fb488</color>
+    <color name="color_47a969">#47a969</color>
+    <color name="color_47a969_80">#8047a969</color>
+    <color name="bg_gray_f6f6f6">#f6f6f6</color>
+    <color name="color_6EB487">#6eb487</color>
+
+    <color name="color_E49935">#E49935</color>
+    <color name="color_FAFAFA">#FAFAFA</color>
+    <color name="color_f54337">#f54337</color>
+    <color name="color_888888">#888888</color>
+    <color name="color_007aFF">#007aFF</color>
+    <color name="color_FF4500">#FF4500</color>
+    <color name="color_959595">#959595</color>
+    <color name="color_232323">#232323</color>
+    <color name="color_323232">#323232</color>
+    <color name="color_282828">#282828</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_5E5E5E">#5E5E5E</color>
+    <color name="color_A8A8A8">#A8A8A8</color>
+    <color name="color_F9F9F9">#F9F9F9</color>
+    <color name="color_919191">#919191</color>
+    <color name="color_CCCCCC">#CCCCCC</color>
+    <color name="color_358EE9">#358EE9</color>
+    <color name="color_F54337">#F54337</color>
+    <color name="color_AA333333">#AA333333</color>
+    <color name="color_E65959">#E65959</color>
+    <color name="color_50E65959">#50E65959</color>
+    <color name="color_50E75854">#50E75854</color>
+    <color name="color_F8F8F8">#F8F8F8</color>
+    <color name="color_BBBBBB">#BBBBBB</color>
+    <color name="color_40ffffff">#40ffffff</color>
+    <color name="color_30000000">#30000000</color>
+    <color name="color_46474d">#46474d</color>
+    <color name="color_E8A08D">#E8A08D</color>
+    <color name="color_2A7EE7">#2A7EE7</color>
+    <color name="color_DA3A34">#DA3A34</color>
+    <color name="color_E1E1E1">#FFE1E1E1</color>
+
+    <color name="color_888787">#888787</color>
+
+    <color name="default_little_normal_color">#aaaaaa</color>
+    <color name="default_little_fill_color">#e75845</color>
+    <color name="default_little_lineto_color">#e75845</color>
+
+    <color name="default_normal_color">#cccccc</color>
+    <color name="default_finger_on_color">#e75845</color>
+    <color name="default_finger_on_color_1">#66fdf3f3</color>
+    <color name="default_finger_lineto_color">#e75845</color>
+    <color name="default_wrong_lineto_color">#e75845</color>
+
+    <color name="trade_red">#ff3434</color>
+    <color name="trade_red_80">#80ff3434</color>
+    <color name="color_E5E5E5">#E5E5E5</color>
+    <color name="color_48A869">#48A869</color>
+    <color name="light_orange">#FF4500</color>
+    <color name="textd22828">#d22828</color>
+    <color name="color_kyc_pic">#E8A08D</color>
 </resources>

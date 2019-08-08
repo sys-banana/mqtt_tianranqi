@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen49"
+        android:text="燃气维修专用"
+        android:textSize="@dimen/dimen20"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_margin="13dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_imei"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入IMEI码"
+            android:paddingLeft="8dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="59dp"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_scan_11" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13"
+        android:text="请先输入IMEI码或扫描二维码连接天然气，然后进行操作"
+        android:textColor="@color/color_E75854"
+        android:textSize="@dimen/dimen12" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_margin="@dimen/dimen13"
+        android:background="@drawable/selector_btn_3"
+        android:text="连接天然气" />
+
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen49"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen13"
+            android:text="设置燃气报警器阀门"
+            android:textSize="@dimen/dimen18" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_rq_change"
+            android:layout_width="@dimen/dimen100"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_choose_close" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13"
+        android:layout_marginTop="@dimen/dimen100"
+        android:background="@drawable/selector_btn_3"
+        android:text="查询燃气报警器状态" />
+
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen49"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="燃气状态" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1"
+            android:text="@string/bit2_status_no"
+            android:gravity="center" />
+
+    </LinearLayout>
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen49"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="阀门状态" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1"
+            android:text="@string/bit2_status_no"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen49"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="异常报警" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen49"
+            android:layout_weight="1"
+            android:text="@string/bit2_status_no"
+            android:gravity="center" />
+
+    </LinearLayout>
+    <View
+        style="@style/LineStyle"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13" />
+
+</LinearLayout>

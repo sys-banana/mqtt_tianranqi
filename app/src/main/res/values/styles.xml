@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="LineStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/px1</item>
+        <item name="android:layout_marginLeft">@dimen/dimen20</item>
+        <item name="android:layout_marginRight">@dimen/dimen20</item>
+        <item name="android:background">@color/theme_light</item>
+    </style>
 </resources>
