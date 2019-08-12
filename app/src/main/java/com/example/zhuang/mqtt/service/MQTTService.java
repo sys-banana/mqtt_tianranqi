@@ -1,6 +1,7 @@
 package com.example.zhuang.mqtt.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,12 +10,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.RemoteViews;
 
 import com.example.zhuang.mqtt.R;
 import com.example.zhuang.mqtt.TRQActivity;
@@ -35,14 +36,21 @@ public class MQTTService extends Service {
 
     private static MqttAndroidClient client;
     private MqttConnectOptions conOpt;
+    private Context mContext;
 
     private String host = "tcp://140.207.48.130:2601";
     private String userName = "admin";
     private String passWord = "123456";
     private static String myTopic = "/LIGHT/xxxxxxxxxxxxxxx/REQ";      //要发布的主题
     private static String myTopic2 = "/LIGHT/xxxxxxxxxxxxxxx/RSP";      //要订阅的主题
+    private static String myTopic3 = "/LIGHT/xxxxxxxxxxxxxxx/DATA";      //要订阅的主题
     private String clientId = "MQTT_FX_Client1";//客户端标识
     private IGetMessageCallBack IGetMessageCallBack;
+    private NotificationManager notificationManager;
+    private Notification notification;
+    private Intent updateIntent;
+    private PendingIntent pendingIntent;
+    private int notification_id = 0;
 
 
     public static String getMyTopic() {
@@ -175,7 +183,8 @@ public class MQTTService extends Service {
             });
             try {
                 // 订阅myTopic话题
-                client.subscribe(myTopic2,1);
+                client.subscribe(myTopic2,2);
+                client.subscribe(myTopic3,2);
             } catch (MqttException e) {
                 e.printStackTrace();
             }
@@ -201,10 +210,15 @@ public class MQTTService extends Service {
 
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
-
             String str1 = new String(message.getPayload());
-            if (IGetMessageCallBack != null){
-                IGetMessageCallBack.setMessage(str1);
+            if (topic.contains("DATA")){
+                if (IGetMessageCallBack != null){
+                    IGetMessageCallBack.setMessage(str1,"data");
+                }
+            }else {
+                if (IGetMessageCallBack != null) {
+                    IGetMessageCallBack.setMessage(str1, "req");
+                }
             }
             String str2 = topic + ";qos:" + message.getQos() + ";retained:" + message.isRetained();
             Log.i(TAG, "messageArrived:" + str1);
@@ -243,6 +257,7 @@ public class MQTTService extends Service {
         Log.e(getClass().getName(), "onBind");
         myTopic = intent.getStringExtra("myTopic");
         myTopic2 = intent.getStringExtra("myTopic2");
+        myTopic3 = intent.getStringExtra("myTopic3");
         clientId = intent.getStringExtra("clientId");
         return new CustomBinder();
     }
@@ -257,22 +272,43 @@ public class MQTTService extends Service {
         }
     }
 
-    public  void toCreateNotification(String message){
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, new Intent(this,MQTTService.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);//3、创建一个通知，属性太多，使用构造器模式
+    RemoteViews contentView;
 
-        Notification notification = builder
-                .setTicker("测试标题")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("")
-                .setContentText(message)
-                .setContentInfo("")
-                .setContentIntent(pendingIntent)//点击后才触发的意图，“挂起的”意图
-                .setAutoCancel(true)        //设置点击之后notification消失
-                .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        startForeground(0, notification);
-        notificationManager.notify(0, notification);
+    public  void toCreateNotification(String message){
+        String id = "channel_001";
+        String name = "update";
+
+        contentView = new RemoteViews(getPackageName(), R.layout.item_notification);
+        contentView.setImageViewResource(R.id.notificationImage, R.mipmap.icon);
+        contentView.setTextViewText(R.id.notificationTitle, getString(R.string.app_name));
+        contentView.setTextViewText(R.id.notificationPercent, "0%");
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(mChannel);
+            notification = new Notification.Builder(this)
+                    .setChannelId(id)
+                    .setSmallIcon(R.mipmap.icon)
+                    .setTicker("")
+                    .setCustomContentView(contentView)
+                    .build();
+        } else {
+            notification = new Notification();
+            notification.icon = R.mipmap.icon;
+            notification.tickerText = "";
+            notification.contentView = contentView;
+        }
+
+        updateIntent = new Intent(this, TRQActivity.class);
+        updateIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pendingIntent = PendingIntent.getActivity(this, 0, updateIntent, 0);
+        notification.contentIntent = pendingIntent;
+
+        notificationManager.notify(notification_id, notification);
 
     }
+
+
 }

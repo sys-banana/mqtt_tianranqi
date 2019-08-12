@@ -148,15 +148,23 @@
         android:layout_marginLeft="@dimen/dimen13"
         android:layout_marginRight="@dimen/dimen13" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen13"
+        android:text="维修请注意安全！！！！"
+        android:textStyle="bold"
+        android:textColor="@color/trade_red"
+        android:gravity="center"/>
+
     <Button
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:layout_marginLeft="@dimen/dimen13"
         android:layout_marginRight="@dimen/dimen13"
-        android:layout_marginTop="@dimen/dimen100"
         android:background="@drawable/selector_btn_3"
-        android:text="查询燃气报警器状态" />
+        android:text="查询燃气设备状态" />
 
     <View
         style="@style/LineStyle"

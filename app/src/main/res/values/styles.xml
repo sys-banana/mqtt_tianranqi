@@ -16,4 +16,8 @@
         <item name="android:layout_marginRight">@dimen/dimen20</item>
         <item name="android:background">@color/theme_light</item>
     </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@color/color_30000000</item>
+    </style>
 </resources>

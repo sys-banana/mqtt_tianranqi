@@ -1,14 +1,25 @@
 package com.example.zhuang.mqtt;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.opengl.Visibility;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.CallSuper;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -21,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +40,11 @@ import com.example.zhuang.mqtt.service.IGetMessageCallBack;
 import com.example.zhuang.mqtt.service.MQTTService;
 import com.example.zhuang.mqtt.service.MyServiceConnection;
 import com.example.zhuang.mqtt.utils.Contants;
+import com.example.zhuang.mqtt.utils.NotificationUtilsMe;
 import com.example.zhuang.mqtt.utils.SharedPref;
 import com.example.zhuang.mqtt.utils.ToastUtils;
 import com.yanzhenjie.permission.Permission;
 
-import java.math.BigDecimal;
 
 public class TRQActivity extends AppCompatActivity implements IGetMessageCallBack {
 
@@ -49,13 +61,17 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
     private Button btn_connect_on;
     private Button btn_connect_off;
     private String myTopic2;
+    private String myTopic3;
     private String myTopic;
     private String clientId;
-    private String messageStatus;
     private Button btn_search;
     private TextView tv_bit0;
     private TextView tv_bit1;
     private TextView tv_bit2;
+    private Notification notify1;
+    private Context mContext;
+    private NotificationManager mNManager;
+    private static final int NOTIFYID_1 = 1232414;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +81,71 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
         initView();
         initListener();
 
+        mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "chat";
+            String channelName = "聊天消息";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            createNotificationChannel(channelId, channelName, importance);
+
+            channelId = "subscribe";
+            channelName = "订阅消息";
+            importance = NotificationManager.IMPORTANCE_DEFAULT;
+            createNotificationChannel(channelId, channelName, importance);
+        }
+
+    }
+
+    public void sendChatMsg(String message) {
+        String exMesage1 = "";
+        String exMesage2 = "";
+        String exMesage3 = "";
+        char bit0 = message.charAt(6);
+        char bit1 = message.charAt(7);
+        char bit2 = message.charAt(8);
+        if (bit0 == '0') {
+            exMesage1="燃气正常";
+        } else {
+            exMesage1="燃气泄露";
+        }
+        if (bit1 == '0') {
+            exMesage2="阀门关闭";
+        } else {
+            exMesage2="阀门开启";
+        }
+        if (bit2 == '0') {
+            exMesage3="设备正常";
+        } else {
+            exMesage3="设备故障";
+        }
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = manager.getNotificationChannel("chat");
+            if (channel.getImportance() == NotificationManager.IMPORTANCE_NONE) {
+                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, channel.getId());
+                startActivity(intent);
+                Toast.makeText(this, "请手动将通知打开", Toast.LENGTH_SHORT).show();
+            }
+        }
+        Notification notification = new NotificationCompat.Builder(this, "chat")
+                .setContentTitle("警告！控制器异常！")
+                .setContentText(exMesage1+" | "+exMesage2+" | "+exMesage3)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setAutoCancel(true)
+                .build();
+        manager.notify(1, notification);
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int importance) {
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private TextWatcher mTextWatcher = new TextWatcher() {
@@ -98,6 +179,7 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
         serviceConnection.setIGetMessageCallBack(TRQActivity.this);
         Intent intent = new Intent(this, MQTTService.class);
         intent.putExtra("myTopic2", myTopic2);
+        intent.putExtra("myTopic3", myTopic3);
         intent.putExtra("myTopic", myTopic);
         intent.putExtra("clientId", clientId);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -118,11 +200,14 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
 
         et_imei.addTextChangedListener(mTextWatcher);
 
-        if (SharedPref.getInstance().getData(Contants.IMEI)!=null) {
+        if (SharedPref.getInstance().getData(Contants.IMEI) != null) {
             et_imei.setText(String.valueOf(SharedPref.getInstance().getData(Contants.IMEI)));
-        }else {
+        } else {
             et_imei.setText("");
         }
+
+        int color = Color.parseColor("#ff00ff");
+        ColorDrawable drawable = new ColorDrawable(color);
 
 
         context = TRQActivity.this;
@@ -143,6 +228,7 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
                 if (serviceConnection != null) {
                     Intent intent = new Intent(TRQActivity.this, MQTTService.class);
                     unbindService(serviceConnection);
+                    serviceConnection = null;
                 } else {
                     ToastUtils.showToast(TRQActivity.this, "请建立连接");
                 }
@@ -190,11 +276,12 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
     private void initData() {
         message = et_imei.getText().toString().trim();
         myTopic2 = "/LIGHT/" + message + "/RSP";
+        myTopic3 = "/LIGHT/" + message + "/DATA";
         myTopic = "/LIGHT/" + message + "/REQ";
         clientId = String.valueOf((Math.random() * 9 + 1) * 100000);
         Log.i("TRQActivity", clientId);
 
-        SharedPref.getInstance().saveData(Contants.IMEI,message);
+        SharedPref.getInstance().saveData(Contants.IMEI, message);
     }
 
     private void scan() {
@@ -205,13 +292,25 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
     }
 
     @Override
-    public void setMessage(String message) {
-        if (message.equals("OK")&&isOpen){
+    public void setMessage(String message,String topic) {
+
+        if (topic.equals("data")) {
+//            mqttService = serviceConnection.getMqttService();
+//            mqttService.toCreateNotification(message);
+//            showOpenHistoryNotice(this,"警告","控制器发生泄露或检测到异常");
+//            NotificationUtilsMe notificationUtilsMe = new NotificationUtilsMe(this);
+//            notificationUtilsMe.sendNotification("zzz","zzzzzxczx");
+
+            sendChatMsg(message);
+
+        }
+
+        if (message.equals("OK") && isOpen) {
             isOpen = false;
             tv_bit1.setTextColor(Color.GREEN);
             tv_bit1.setText("关闭");
             check.setImageResource(R.drawable.icon_choose_close);
-        } else if (message.equals("OK")&&!isOpen) {
+        } else if (message.equals("OK") && !isOpen) {
             isOpen = true;
             tv_bit1.setTextColor(Color.RED);
             tv_bit1.setText("开启");
@@ -219,6 +318,7 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
         }
 
         if (message.contains("STATE")) {
+            ToastUtils.showToast(this, "数据更新成功");
             char bit0 = message.charAt(6);
             char bit1 = message.charAt(7);
             char bit2 = message.charAt(8);
@@ -256,10 +356,12 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
         }
     }
 
-    @CallSuper
+
+
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() ==  MotionEvent.ACTION_DOWN ) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View view = getCurrentFocus();
             if (isShouldHideKeyBord(view, ev)) {
                 hideSoftInput(view.getWindowToken());
@@ -291,7 +393,6 @@ public class TRQActivity extends AppCompatActivity implements IGetMessageCallBac
             manager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 
 
     @Override

@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mqtt_bg"
     tools:context=".Main2Activity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mqtt_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen100"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dimen20"
+        android:textColor="#FFDD09"
+        android:layout_marginLeft="@dimen/dimen13"
+        android:layout_marginRight="@dimen/dimen13"
+        android:layout_centerInParent="true"
+        android:textStyle="normal"
+        android:text="安全！放心！更贴心！"/>
+
+</RelativeLayout>
